@@ -1,7 +1,3 @@
-  # PraktikaSt
-Проект на C# "Столовая"
-// Форма авторизации 
-
 namespace Столовая
 {
     public partial class authorization : Form
