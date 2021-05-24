@@ -1,0 +1,57 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Столовая
+{
+    public partial class registrazia : Form
+    {
+        public registrazia()
+        {
+            InitializeComponent();
+        }
+
+        private void registr_Click(object sender, EventArgs e)
+        {
+            
+            using (var db = new СтоловаяEntities())
+            {
+                var rb = new Сотрудник();
+                rb.Фамилия = surnameBox.Text;
+                rb.Имя = nameBox.Text;
+                rb.Отчество = patronymicBox.Text;
+                rb.ДатаРождения = datebirthPicker.Value;
+
+                var user = new Пользователь();
+                user.Логин = loginBox.Text;
+                user.Пароль = passwordBox.Text;
+                var res = db.Пользователь.FirstOrDefault(item => item.Логин == loginBox.Text );
+                if(res == null)
+                {
+                    db.Сотрудник.Add(rb);
+                    db.SaveChanges();
+
+                    user.idПользователь = rb.idПользователь;
+                    db.Пользователь.Add(user);
+                    db.SaveChanges();
+
+                    
+                    
+                    MessageBox.Show("Вы прошли регистрацию "+rb.idПользователь.ToString() );
+                }
+                else
+                {
+                    MessageBox.Show("Вы не прошли регистрацию");
+
+                }
+                
+            }
+        }
+    }
+}
